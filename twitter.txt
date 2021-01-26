@@ -1,0 +1,16 @@
+Twitter Developer Login:  
+
+https://developer.twitter.com/en
+
+User Name: Montshasta2020
+Password:  2828Goodie
+
+API key
+DwdWjPcYmvMoHlsAtOdKSLCoN
+
+API secret key
+gCihKxCURUx0gGhYtPfarzLbZEgJfwVhDC282eP45KqUPwsDn7
+
+Bearer token
+AAAAAAAAAAAAAAAAAAAAAHw9MAEAAAAAo7W6lF7pXZxcVM10FYtpSaktg9E%3Dzxk9OeMg1BgHwfVAx809daOtprUt0nS2yx7AaFfLfcQHbwqi8g
+
