@@ -32,6 +32,11 @@ url = "https://query1.finance.yahoo.com/v8/finance/chart/SYMBOL?region=US&lang=e
 es = Elasticsearch(hosts=[{'host': elasticsearch_host, 'port': elasticsearch_port}],
                    http_auth=(elasticsearch_user, elasticsearch_password))
 
+
+
+low = 0
+high = 0
+last =  0
 class GetStock:
 
     def get_price(self, url, symbol):
@@ -46,6 +51,8 @@ class GetStock:
                 # add stock symbol to url
                 url = re.sub("SYMBOL", symbol, url)
                 # get stock data (json) from url
+
+                print("\n********************* PASSED 1 ******************** ")
                 try:
                     r = requests.get(url)
                     data = r.json()
@@ -54,6 +61,8 @@ class GetStock:
                     raise
                 logger.debug(data)
                 # build dict to store stock info
+
+                print("\n********************* PASSED 2 ******************** ")                
                 try:
                     D = {}
                     D['symbol'] = symbol
@@ -81,26 +90,34 @@ class GetStock:
                         D['vol'] = data['chart']['result'][0]['indicators']['quote'][0]['volume'][-2]
                     logger.debug(D)
                 except KeyError as e:
+                    print ("EXCEPTON HEREEE *********************")
                     logger.error("Exception: exception getting stock data caused by %s" % e)
-                    raise
+                    pass
+
+                print("\n********************* PASSED 3 ******************** ")                
 
                 # check before adding to ES
                 if D['last'] is not None and D['high'] is not None and D['low'] is not None:
-                    logger.info("Adding stock data to Elasticsearch...")
-                    # add stock price info to elasticsearch
-                    es.index(index=args.index,
-                             doc_type="stock",
-                             body={"symbol": D['symbol'],
-                                   "price_last": D['last'],
-                                   "date": D['date'],
-                                   "change": D['change'],
-                                   "price_high": D['high'],
-                                   "price_low": D['low'],
-                                   "vol": D['vol']
-                                   })
+                    pass
                 else:
-                    logger.warning("Some stock data had null values, not adding to Elasticsearch")
+                    D['last'] = 0
+                    D['high'] = 0
+                    D['low'] = 0
 
+                logger.info("Adding stock data to Elasticsearch...")
+
+                # add stock price info to elasticsearch
+                es.index(index=args.index,
+                         doc_type="stock",
+                         body={"symbol": D['symbol'],
+                               "price_last": D['last'],
+                               "date": D['date'],
+                               "change": D['change'],
+                               "price_high": D['high'],
+                               "price_low": D['low'],
+                               "vol": D['vol']
+                               })
+                
             except Exception as e:
                 logger.error("Exception: can't get stock data, trying again later, reason is %s" % e)
                 pass

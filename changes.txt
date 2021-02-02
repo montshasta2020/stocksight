@@ -1,0 +1,8 @@
+[settings]
+
+#name of stock
+stock_name = MSFT
+
+#name of keywords to search
+keywords_to_search = 'Bill gates',microsoft,rich 
+
