@@ -9,7 +9,6 @@ Copyright (C) Chris Park 2018-2020
 stocksight is released under the Apache 2.0 license. See
 LICENSE for the full license text.
 """
-
 import time
 import requests
 import re
@@ -117,9 +116,21 @@ class GetStock:
                                "price_low": D['low'],
                                "vol": D['vol']
                                })
-                
+
             except Exception as e:
-                logger.error("Exception: can't get stock data, trying again later, reason is %s" % e)
+                print(D)
+                es.index(index=args.index,
+                         doc_type="stock",
+                         body={"symbol": D['symbol'],
+                               "price_last": D['last'],
+                               "date": D['date'],
+                               "change": 0.0,
+                               "price_high": D['last'],
+                               "price_low": D['last'],
+                               "vol": 0
+                               })
+                                                    
+                # logger.error("Exception: can't get stock data, trying again later, reason is %s" % e)
                 pass
 
             logger.info("Will get stock data again in %s sec..." % args.frequency)
