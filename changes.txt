@@ -6,3 +6,14 @@ stock_name = MSFT
 #name of keywords to search
 keywords_to_search = 'Bill gates',microsoft,rich 
 
+
+#ONLY ONE CAN BE TRUE AT A TIME EITHER mine_url followlinks or twitteruserids else will be flase
+
+#scrape urls in the tweets as well
+mine_url = True
+
+# followlinks True will start mining from twitter_feeds added into config.py
+followlinks = False
+
+# use twitteruserids.txt ids for scraping
+twitteruserids = False
